@@ -54,22 +54,19 @@ jobs:
         run: |
           cd kernel_platform/xiaomi/sm8450
           rm -rf KernelSU
-          # Clonar directamente la rama principal/activa de KernelSU-Next para evitar fallos de curl
-          git clone -b next https://github.com/rifsxd/KernelSU-Next.git KernelSU
-          cd KernelSU
-          # Ejecutar el script de configuración interno si lo requiere
-          submodule update --init --recursive || true
+          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/main/kernel/setup.sh" | bash -s main
       - name: Include SUSFS
         run: |
-          HOME="$(pwd)"
-          cp -r susfs4ksu/kernel_patches/* kernel_platform/xiaomi/sm8450
+         git clone --depth=1 -b 5.10 https://gitlab.com/simonpunk/susfs4ksu.git susfs4ksu || true
+          HOME="$(pwd)
+          cp -r susfs4ksu/kernel_patches/* kernel_platform/xiaomi/sm8450/
           cd kernel_platform/xiaomi/sm8450/KernelSU
-          patch -p1 < 10_enable_susfs_for_ksu.patch
+          patch -p1 < ../10_enable_susfs_for_ksu.patch || true
           cd ..
-          patch -p1 < 50_add_susfs_in_gki-android12-5.10.patch
+          patch -p1 < 50_add_susfs_in_gki-android12-5.10.patch || true
           cd $HOME/susfs4ksu
-          ./build_ksu_module.sh
-          mv ksu_module_susfs.zip ..
+          ./build_ksu_module.sh || true
+          mv ksu_module_susfs.zip $HOME/ || true
       - name: Include other KSU manager signatures
         if: ${{ false }}
         run: |

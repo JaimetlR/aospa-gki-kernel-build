@@ -61,7 +61,7 @@ jobs:
       - name: Include SUSFS
         run: |
           rm -rf susfs4ksu
-          git clone --depth=1 -b gki-android13-5.10 https://gitlab.com/simonpunk/susfs4ksu.git susfs4ksu
+          git clone --depth=1 https://gitlab.com/simonpunk/susfs4ksu.git susfs4ksu
           HOME="$(pwd)"
           cp -r susfs4ksu/kernel_patches/* kernel_platform/xiaomi/sm8450/
           cd kernel_platform/xiaomi/sm8450/KernelSU

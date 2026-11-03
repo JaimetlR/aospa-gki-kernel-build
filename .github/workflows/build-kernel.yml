@@ -54,7 +54,7 @@ jobs:
         run: |
           cd kernel_platform/xiaomi/sm8450
           rm -rf KernelSU
-          git clone -b next https://github.com/rifsuns/KernelSU-Next.git KernelSU
+          git clone -b next https://github.com/KernelSU-Next/KernelSU-Next.git KernelSU
           cd KernelSU
           bash kernel/setup.sh next || true
           cd ..
